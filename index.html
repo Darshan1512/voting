@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">Register to Vote</h1>
+        <form action="/register" method="post" class="mb-4">
+            <input type="text" name="voter_id" placeholder="Voter ID" required class="border p-2 mb-2">
+            <input type="text" name="name" placeholder="Full Name" required class="border p-2 mb-2">
+            <button type="submit" class="bg-blue-500 text-white p-2">Register</button>
+        </form>
+
+        <h1 class="text-3xl font-bold mb-4">Cast Your Vote</h1>
+        <form action="/vote" method="post">
+            <input type="text" name="voter_id" placeholder="Voter ID" required class="border p-2 mb-2">
+            <select name="candidate" required class="border p-2 mb-2">
+                <option value="Candidate A">Candidate A</option>
+                <option value="Candidate B">Candidate B</option>
+                <option value="Candidate C">Candidate C</option>
+            </select>
+            <button type="submit" class="bg-green-500 text-white p-2">Vote</button>
+        </form>
+    </div>
+</body>
+</html>
