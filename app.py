@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import get_flashed_messages
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Needed for flashing messages
 
 voters = {}
 votes = {"Candidate A": 0, "Candidate B": 0, "Candidate C": 0}
@@ -15,8 +17,10 @@ def register():
     name = request.form['name']
     if voter_id not in voters:
         voters[voter_id] = {'name': name, 'has_voted': False}
-        return redirect(url_for('index'))
-    return "Voter already registered", 400
+        flash("Registration successful!", "success")
+    else:
+        flash("Voter already registered.", "error")
+    return redirect(url_for('index'))
 
 @app.route('/vote', methods=['POST'])
 def vote():
@@ -26,12 +30,13 @@ def vote():
         if candidate in votes:
             votes[candidate] += 1
             voters[voter_id]['has_voted'] = True
-            return redirect(url_for('index'))
-    return "Invalid vote or duplicate voting attempt", 400
+            flash("Vote cast successfully!", "success")
+        else:
+            flash("Invalid candidate selected.", "error")
+    else:
+        flash("Invalid vote or duplicate voting attempt.", "error")
+    return redirect(url_for('index'))
 
 @app.route('/results')
 def results():
     return render_template('admin.html', votes=votes)
-
-if __name__ == '__main__':
-    app.run(debug=True)
